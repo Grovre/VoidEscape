@@ -22,6 +22,7 @@ public final class VoidEscape extends JavaPlugin {
     public static int blindingEffectDuration;
     public static boolean teleportToRandomPos;
     public static int randomTeleportBounds;
+    public static boolean closeCall;
 
     public static VoidEscape getPlugin() {
         return plugin;
@@ -45,6 +46,7 @@ public final class VoidEscape extends JavaPlugin {
         blindingEffectDuration = config.getBlindingEffectDuration();
         teleportToRandomPos = config.willTeleportToRandomPos();
         randomTeleportBounds = config.getRandomTeleportBounds();
+        closeCall = config.getCloseCall();
 
         // It's a hash set!!!
         playersBeingSaved = new HashSet<>();

@@ -71,4 +71,14 @@ public class ConfigUtils {
 
         return randomTeleportBounds;
     }
+
+    public boolean getCloseCall() {
+        Boolean closeCall = config.getBoolean("closeCall");
+        if(closeCall == null) {
+            System.out.println("Config setup improperly. Does teleportToRandomPos have a true/false value?");
+            VoidEscape.emergencyUnload();
+        }
+
+        return closeCall;
+    }
 }

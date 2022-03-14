@@ -3,7 +3,6 @@ package me.grovre.voidescape.listeners;
 import me.grovre.voidescape.VoidEscape;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.WorldBorder;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,11 +21,16 @@ public class VoidListener implements Listener {
         if(e.getEntityType() != EntityType.PLAYER) return;
         if(e.getCause() != EntityDamageEvent.DamageCause.VOID) return;
 
-        e.setCancelled(true);
-
         Player player = (Player) e.getEntity();
         double yVelocity = player.getVelocity().getY();
 
+        if(VoidEscape.closeCall) {
+            if(player.getHealth() - e.getFinalDamage() > 0) {
+                return;
+            }
+        }
+
+        e.setCancelled(true);
         saveFromVoid(player, yVelocity, findTeleportLocation());
     }
 
