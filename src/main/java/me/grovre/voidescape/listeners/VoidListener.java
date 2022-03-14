@@ -29,5 +29,6 @@ public class VoidListener implements Listener {
         player.teleport(safeLocation);
         player.setVelocity(new Vector(0, yVelocity, 0));
         VoidEscape.playersBeingSaved.add(player);
+        player.setFallDistance(4);
     }
 }
