@@ -1,11 +1,12 @@
 package me.grovre.voidescape;
 
+import me.grovre.voidescape.listeners.FallListener;
+import me.grovre.voidescape.listeners.VoidListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,6 +33,9 @@ public final class VoidEscape extends JavaPlugin {
         safeLocation = config.getSafeLocation();
         playersBeingSaved = new HashSet<>();
         if(playersBeingSaved instanceof HashSet) System.out.println("Yes! It's a HashSet!!");
+
+        Bukkit.getPluginManager().registerEvents(new FallListener(), this);
+        Bukkit.getPluginManager().registerEvents(new VoidListener(), this);
     }
 
     @Override
