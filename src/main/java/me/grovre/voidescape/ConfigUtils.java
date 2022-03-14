@@ -16,13 +16,13 @@ public class ConfigUtils {
     public Location getSafeLocation() {
         String safeWorldName = config.getString("safeWorld");
         if(safeWorldName == null || safeWorldName.length() == 0) {
-            System.out.println("ConfigUtils setup improperly. safeWorld has no value.");
+            System.out.println("Config setup improperly. safeWorld has no value.");
             VoidEscape.emergencyUnload();
             return null;
         }
         World safeWorld = Bukkit.getWorld(safeWorldName);
         if(safeWorld == null) {
-            System.out.println("ConfigUtils setup improperly. safeWorld is an invalid world name.");
+            System.out.println("Config setup improperly. safeWorld is an invalid world name.");
             VoidEscape.emergencyUnload();
         }
         int safeX = config.getInt("safeX");
@@ -30,5 +30,25 @@ public class ConfigUtils {
         int safeZ = config.getInt("safeZ");
 
         return new Location(safeWorld, safeX, safeY, safeZ);
+    }
+
+    public boolean useBlindingEffect() {
+        Boolean useBlindingEffect = config.getBoolean("useBlindingEffect");
+        if(useBlindingEffect == null) {
+            System.out.println("Config setup improperly. Does useBlindingEffect have a true/false value?");
+            VoidEscape.emergencyUnload();
+        }
+
+        return useBlindingEffect;
+    }
+
+    public int getBlindingEffectDuration() {
+        Integer blindingEffectDuration = config.getInt("blindingEffectDuration");
+        if(blindingEffectDuration == null) {
+            System.out.println("Config setup improperly. Does blindingEffectDuration contain an integer with no decimals?");
+            VoidEscape.emergencyUnload();
+        }
+
+        return blindingEffectDuration;
     }
 }

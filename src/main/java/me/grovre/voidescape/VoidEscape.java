@@ -14,6 +14,8 @@ public final class VoidEscape extends JavaPlugin {
 
     public static VoidEscape plugin;
     public static Location safeLocation;
+    public static boolean useBlindingEffect;
+    public static int blindingEffectDuration;
     public static Set<Player> playersBeingSaved;
 
     public static VoidEscape getPlugin() {
@@ -33,6 +35,8 @@ public final class VoidEscape extends JavaPlugin {
         this.saveDefaultConfig();
         ConfigUtils config = new ConfigUtils();
         safeLocation = config.getSafeLocation();
+        useBlindingEffect = config.useBlindingEffect();
+        blindingEffectDuration = config.getBlindingEffectDuration();
 
         playersBeingSaved = new HashSet<>();
         if(playersBeingSaved instanceof HashSet) System.out.println("Yes! It's a HashSet!!");

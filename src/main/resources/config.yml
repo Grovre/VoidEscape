@@ -3,3 +3,5 @@ safeX: 0 # The integer x location a player is teleported to
 safeY: 255 # The integer y location
 safeZ: 0 # The integer z location
 safeWorld: "world" # Generally the worlds are named: "world", "world_nether", and "world_the_end"
+useBlindingEffect: true # Blinds the user for a short amount of time to make the teleport transition smoother
+blindingEffectDuration: 500 # in milliseconds, just like how you measure how long you can last
