@@ -1,0 +1,5 @@
+# Fall damage is canceled until the player reaches a block
+safeX: 0 # The integer x location a player is teleported to
+safeY: 255 # The integer y location
+safeZ: 0 # The integer z location
+safeWorld: "NORMAL" # Regular options are: "NORMAL", "NETHER", "THE_END". Set to what you see fit, including custom worlds.
