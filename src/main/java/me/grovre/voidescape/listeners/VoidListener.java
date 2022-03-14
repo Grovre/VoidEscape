@@ -20,7 +20,6 @@ public class VoidListener implements Listener {
 
         Player player = (Player) e.getEntity();
         double yVelocity = player.getVelocity().getY();
-        if(yVelocity <= 0) return;
 
         saveFromVoid(player, yVelocity, VoidEscape.safeLocation);
     }
