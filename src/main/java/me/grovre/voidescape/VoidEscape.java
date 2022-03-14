@@ -29,8 +29,11 @@ public final class VoidEscape extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
+
+        this.saveDefaultConfig();
         ConfigUtils config = new ConfigUtils();
         safeLocation = config.getSafeLocation();
+
         playersBeingSaved = new HashSet<>();
         if(playersBeingSaved instanceof HashSet) System.out.println("Yes! It's a HashSet!!");
 
