@@ -12,11 +12,16 @@ import java.util.Set;
 
 public final class VoidEscape extends JavaPlugin {
 
+    // the stuff
     public static VoidEscape plugin;
+    public static Set<Player> playersBeingSaved;
+
+    // config options
     public static Location safeLocation;
     public static boolean useBlindingEffect;
     public static int blindingEffectDuration;
-    public static Set<Player> playersBeingSaved;
+    public static boolean teleportToRandomPos;
+    public static int randomTeleportBounds;
 
     public static VoidEscape getPlugin() {
         return plugin;
@@ -32,12 +37,16 @@ public final class VoidEscape extends JavaPlugin {
         // Plugin startup logic
         plugin = this;
 
+        // config assignments
         this.saveDefaultConfig();
         ConfigUtils config = new ConfigUtils();
         safeLocation = config.getSafeLocation();
         useBlindingEffect = config.useBlindingEffect();
         blindingEffectDuration = config.getBlindingEffectDuration();
+        teleportToRandomPos = config.willTeleportToRandomPos();
+        randomTeleportBounds = config.getRandomTeleportBounds();
 
+        // It's a hash set!!!
         playersBeingSaved = new HashSet<>();
         if(playersBeingSaved instanceof HashSet) System.out.println("Yes! It's a HashSet!!");
 

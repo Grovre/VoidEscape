@@ -51,4 +51,24 @@ public class ConfigUtils {
 
         return blindingEffectDuration;
     }
+
+    public boolean willTeleportToRandomPos() {
+        Boolean teleportToRandomPos = config.getBoolean("teleportToRandomPos");
+        if(teleportToRandomPos == null) {
+            System.out.println("Config setup improperly. Does teleportToRandomPos have a true/false value?");
+            VoidEscape.emergencyUnload();
+        }
+
+        return teleportToRandomPos;
+    }
+
+    public int getRandomTeleportBounds() {
+        Integer randomTeleportBounds = config.getInt("randomTeleportBoundsFromCenter");
+        if(randomTeleportBounds == null) {
+            System.out.println("Config setup improperly. Does randomTeleportBoundsFromCenter have a value?");
+            VoidEscape.emergencyUnload();
+        }
+
+        return randomTeleportBounds;
+    }
 }
