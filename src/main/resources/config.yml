@@ -2,4 +2,4 @@
 safeX: 0 # The integer x location a player is teleported to
 safeY: 255 # The integer y location
 safeZ: 0 # The integer z location
-safeWorld: "NORMAL" # Regular options are: "NORMAL", "NETHER", "THE_END". Set to what you see fit, including custom worlds.
+safeWorld: "world" # Generally the worlds are named: "world", "world_nether", and "world_the_end"
