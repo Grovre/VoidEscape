@@ -4,6 +4,8 @@ import me.grovre.voidescape.listeners.FallListener;
 import me.grovre.voidescape.listeners.VoidListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,25 +30,20 @@ public final class VoidEscape extends JavaPlugin {
         return plugin;
     }
 
-    public static void emergencyUnload() {
-        System.err.println("Disabling VoidEscape...");
-        Bukkit.getPluginManager().disablePlugin(plugin);
-    }
-
     @Override
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
+        saveDefaultConfig();
 
         // config assignments
-        this.saveDefaultConfig();
-        ConfigUtils config = new ConfigUtils();
-        safeLocation = config.getSafeLocation();
-        useBlindingEffect = config.useBlindingEffect();
-        blindingEffectDuration = config.getBlindingEffectDuration();
-        teleportToRandomPos = config.willTeleportToRandomPos();
-        randomTeleportBounds = config.getRandomTeleportBounds();
-        closeCall = config.getCloseCall();
+        FileConfiguration config = getConfig();
+        safeLocation = getSafeLocation(config);
+        useBlindingEffect = config.getBoolean("useBlindingEffect");
+        blindingEffectDuration = config.getInt("blindingEffectDuration");
+        teleportToRandomPos = config.getBoolean("teleportToRandomPos");
+        randomTeleportBounds = config.getInt("randomTeleportBoundsFromCenter");
+        closeCall = config.getBoolean("closeCall");
 
         // It's a hash set!!!
         playersBeingSaved = new HashSet<>();
@@ -59,5 +56,24 @@ public final class VoidEscape extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public static Location getSafeLocation(FileConfiguration config) {
+        String safeWorldName = config.getString("safeWorld");
+        if(safeWorldName == null || safeWorldName.length() == 0) {
+            System.out.println("Config setup improperly. safeWorld has no value.");
+            Bukkit.getPluginManager().disablePlugin(VoidEscape.plugin);
+            return null;
+        }
+        World safeWorld = Bukkit.getWorld(safeWorldName);
+        if(safeWorld == null) {
+            System.out.println("Config setup improperly. safeWorld is an invalid world name.");
+            Bukkit.getPluginManager().disablePlugin(VoidEscape.plugin);
+        }
+        int safeX = config.getInt("safeX");
+        int safeY = config.getInt("safeY");
+        int safeZ = config.getInt("safeZ");
+
+        return new Location(safeWorld, safeX, safeY, safeZ);
     }
 }
