@@ -36,14 +36,19 @@ public class VoidListener implements Listener {
 
     public void saveFromVoid(Player player, double yVelocity, Location safeLocation) {
         applyBlindEffect(player);
+
         player.teleport(safeLocation);
         player.setVelocity(new Vector(0, yVelocity, 0));
+
         VoidEscape.playersBeingSaved.add(player);
         Bukkit.getScheduler().runTaskLater(
                 VoidEscape.getPlugin(),
                 () -> VoidEscape.playersBeingSaved.remove(player),
                 300
         );
+
+        // Extra distance to look cool and also to cancel out the
+        // fall damage removal
         player.setFallDistance(4);
     }
 

@@ -5,11 +5,14 @@ import me.grovre.voidescape.listeners.VoidListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public final class VoidEscape extends JavaPlugin {
@@ -65,11 +68,27 @@ public final class VoidEscape extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(VoidEscape.plugin);
             return null;
         }
+
         World safeWorld = Bukkit.getWorld(safeWorldName);
+
+        // Load it if the world was not retrieved
+        if (safeWorld == null)
+            safeWorld = Bukkit.createWorld(WorldCreator.name(safeWorldName));
+
+        // If it's still null after an attempted load, the name is invalid
         if(safeWorld == null) {
-            System.out.println("Config setup improperly. safeWorld is an invalid world name.");
+            System.out.println("Config setup improperly. safeWorld " + safeWorldName + " is an invalid world name.");
+
+            List<String> validWorldNames = new ArrayList<>();
+            Bukkit.getWorlds().forEach(w -> validWorldNames.add(w.getName()));
+
+            System.out.println("Here are the available world names: ");
+            System.out.println(validWorldNames);
             Bukkit.getPluginManager().disablePlugin(VoidEscape.plugin);
+        } else {
+            System.out.println("World successfully set to: " + safeWorld.getName());
         }
+
         int safeX = config.getInt("safeX");
         int safeY = config.getInt("safeY");
         int safeZ = config.getInt("safeZ");
