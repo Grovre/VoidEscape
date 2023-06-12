@@ -6,6 +6,7 @@ safeWorld: "world" # Generally the default worlds are named: "world", "world_net
 
 teleportToRandomPos: false # Ignores safe X, Y, and Z and will use a random position anywhere in the safeWorld instead, spawning the player 500 blocks up
 randomTeleportBoundsFromCenter: 1000 # From (X, Z) it will find a place +- this many blocks away to teleport to
+allowTpIntoWater: false # Allows randomly teleporting into water
 
 useBlindingEffect: false # Blinds the user for a short amount of time to make the teleport transition smoother
 blindingEffectDuration: 40 # in ticks, 20 per second

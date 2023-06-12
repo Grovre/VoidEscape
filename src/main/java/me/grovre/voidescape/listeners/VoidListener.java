@@ -3,6 +3,9 @@ package me.grovre.voidescape.listeners;
 import me.grovre.voidescape.VoidEscape;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.Random;
+import java.util.function.*;
 
 public class VoidListener implements Listener {
 
@@ -49,7 +53,7 @@ public class VoidListener implements Listener {
 
         // Extra distance to look cool and also to cancel out the
         // fall damage removal
-        player.setFallDistance(4);
+        player.setFallDistance(VoidEscape.bufferHeight);
     }
 
     public void applyBlindEffect(Player player) {
@@ -68,17 +72,55 @@ public class VoidListener implements Listener {
         }
 
         int distanceFromWorldCenter = VoidEscape.randomTeleportBounds;
+        World world = VoidEscape.safeLocation.getWorld();
+        if (world == null)
+            throw new RuntimeException("Attempted to find a random safe location but the world is null.");
         Random r = new Random();
-        int xToTeleportTo = r.nextInt(distanceFromWorldCenter * 2) - distanceFromWorldCenter;
-        int zToTeleportTo = r.nextInt(distanceFromWorldCenter * 2) - distanceFromWorldCenter;
+        IntSupplier randomPosSupplier = () -> getRandomPos(r, VoidEscape.safeLocation.getWorld(), distanceFromWorldCenter);
+        Block highestYBlock;
+        int xToTeleportTo;
+        int zToTeleportTo;
+
+        int i = 0;
+        do {
+            xToTeleportTo = randomPosSupplier.getAsInt();
+            zToTeleportTo = randomPosSupplier.getAsInt();
+
+            highestYBlock = VoidEscape.safeLocation
+                    .getWorld()
+                    .getHighestBlockAt(xToTeleportTo, zToTeleportTo);
+
+            if (highestYBlock == null)
+                continue;
+
+            if (highestYBlock.isEmpty())
+                continue;
+
+            Material blockType = highestYBlock.getType();
+            if (blockType == Material.LAVA)
+                continue;
+
+            if (!VoidEscape.allowTpIntoWater && blockType == Material.WATER)
+                continue;
+
+        } while (i++ < 500_000);
+
+        if (i >= 500_000)
+            throw new RuntimeException(
+                    "Safe teleport position failsafe activated. " +
+                    "Couldn't find a safe teleport location 500,000 times.");
+
         Location randomLocationWithinBorders = new Location(
                 VoidEscape.safeLocation.getWorld(),
                 xToTeleportTo,
-                500,
+                highestYBlock.getY() + VoidEscape.bufferHeight * 125, // 4 * 125 = 500 blocks higher than highest block
                 zToTeleportTo
         );
-        System.out.println("New safe location");
 
         return randomLocationWithinBorders;
+    }
+
+    private int getRandomPos(Random random, World world, int distanceFromWorldCenter) {
+        return random.nextInt(distanceFromWorldCenter * 2) - distanceFromWorldCenter;
     }
 }

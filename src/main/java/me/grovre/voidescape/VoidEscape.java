@@ -28,6 +28,8 @@ public final class VoidEscape extends JavaPlugin {
     public static boolean teleportToRandomPos;
     public static int randomTeleportBounds;
     public static boolean closeCall;
+    public static int bufferHeight = 4; // in blocks or something
+    public static boolean allowTpIntoWater;
 
     public static VoidEscape getPlugin() {
         return plugin;
@@ -37,9 +39,9 @@ public final class VoidEscape extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
-        saveDefaultConfig();
 
         // config assignments
+        saveDefaultConfig();
         FileConfiguration config = getConfig();
         safeLocation = getSafeLocation(config);
         useBlindingEffect = config.getBoolean("useBlindingEffect");
@@ -47,6 +49,7 @@ public final class VoidEscape extends JavaPlugin {
         teleportToRandomPos = config.getBoolean("teleportToRandomPos");
         randomTeleportBounds = config.getInt("randomTeleportBoundsFromCenter");
         closeCall = config.getBoolean("closeCall");
+        allowTpIntoWater = config.getBoolean("allowTpIntoWater");
 
         // It's a hash set!!!
         playersBeingSaved = new HashSet<>();
