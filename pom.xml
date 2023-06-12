@@ -6,7 +6,7 @@
 
     <groupId>me.grovre</groupId>
     <artifactId>VoidEscape</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.12</version>
     <packaging>jar</packaging>
 
     <name>VoidEscape</name>

@@ -67,6 +67,7 @@ public class VoidListener implements Listener {
         ));
     }
 
+    private static Random rand = new Random();
     public Location findTeleportLocation() {
         if(!VoidEscape.teleportToRandomPos) {
             return VoidEscape.safeLocation;
@@ -76,8 +77,7 @@ public class VoidListener implements Listener {
         World world = VoidEscape.safeLocation.getWorld();
         if (world == null)
             throw new RuntimeException("Attempted to find a random safe location but the world is null.");
-        Random r = new Random();
-        IntSupplier randomPosSupplier = () -> getRandomPos(r, VoidEscape.safeLocation.getWorld(), distanceFromWorldCenter);
+        IntSupplier randomPosSupplier = () -> getRandomPos(rand, VoidEscape.safeLocation.getWorld(), distanceFromWorldCenter);
         Block highestYBlock;
         int xToTeleportTo;
         int zToTeleportTo;
@@ -91,18 +91,25 @@ public class VoidListener implements Listener {
                     .getWorld()
                     .getHighestBlockAt(xToTeleportTo, zToTeleportTo);
 
-            if (highestYBlock == null)
+            if (highestYBlock == null) {
                 continue;
+            }
 
-            if (highestYBlock.isEmpty())
+            if (highestYBlock.isEmpty()) {
                 continue;
+            }
 
             Material blockType = highestYBlock.getType();
-            if (blockType == Material.LAVA)
+            if (blockType == Material.LAVA) {
                 continue;
+            }
 
-            if (!VoidEscape.allowTpIntoWater && blockType == Material.WATER)
+            if (!VoidEscape.allowTpIntoWater && blockType == Material.WATER) {
                 continue;
+            }
+
+            // If we get here, it's a good tp spot. If we didn't, it's a bad tp spot
+            break; // Weird flow I might fix. This is only temporary. Definitely.
 
         } while (i++ < 500_000);
 
