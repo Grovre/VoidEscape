@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+import org.checkerframework.common.returnsreceiver.qual.This;
 
 import java.util.Random;
 import java.util.function.*;
@@ -105,6 +106,11 @@ public class VoidListener implements Listener {
 
         } while (i++ < 500_000);
 
+        /*
+        This will never happen.
+        This will never happen.
+        This will never happen.
+         */
         if (i >= 500_000)
             throw new RuntimeException(
                     "Safe teleport position failsafe activated. " +
